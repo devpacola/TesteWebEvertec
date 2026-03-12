@@ -1,0 +1,6 @@
+@TesteWebEvertec_HostAddress = http://localhost:5174
+
+GET {{TesteWebEvertec_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
