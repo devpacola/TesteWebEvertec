@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEdit,
   faTrash,
-  faStar,
   faMapMarkerAlt,
   faPlus,
   faSearch,
@@ -133,17 +132,7 @@ export default function Listagem() {
 
                       <p className="card-text text-muted flex-grow-1">{ponto.descricao}</p>
 
-                      <div className="d-flex align-items-center justify-content-between mt-3">
-                        <div className="avaliacao">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <FontAwesomeIcon
-                              key={i}
-                              icon={faStar}
-                              className={i < ponto.avaliacao ? 'star-filled' : 'star-empty'}
-                            />
-                          ))}
-                        </div>
-
+                      <div className="d-flex justify-content-end mt-3">
                         <div className="card-actions">
                           <button
                             className="btn btn-sm btn-outline-primary me-2"
