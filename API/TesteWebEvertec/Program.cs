@@ -9,6 +9,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<PontosTuristicosRepository>();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddCors(options =>
     options.AddPolicy("Frontend", policy =>
@@ -22,5 +23,6 @@ using (var scope = app.Services.CreateScope())
     scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 
 app.UseCors("Frontend");
+app.MapHealthChecks("/health");
 app.MapControllers();
 app.Run();

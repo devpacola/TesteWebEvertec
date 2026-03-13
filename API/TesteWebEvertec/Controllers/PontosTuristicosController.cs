@@ -57,6 +57,39 @@ public class PontosTuristicosController(PontosTuristicosRepository pontosTuristi
     public async Task<ActionResult<PontoTuristico>> BuscarPontoTuristicoPorId(int id)
     {
         PontoTuristico? pontoTuristico = await _pontosTuristicosRepository.BuscarPorId(id);
+        if (pontoTuristico is null) return NotFound();
         return Ok(pontoTuristico);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<PontoTuristico>> AtualizarPontoTuristico(int id, [FromBody] PontoTuristico pontoTuristico)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try
+        {
+            var resultado = await _pontosTuristicosRepository.Atualizar(id, pontoTuristico);
+            if (resultado is null) return NotFound();
+            return Ok(resultado);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Não foi possível atualizar o ponto turístico.");
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> ExcluirPontoTuristico(int id)
+    {
+        try
+        {
+            var excluido = await _pontosTuristicosRepository.Excluir(id);
+            if (!excluido) return NotFound();
+            return NoContent();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Não foi possível excluir o ponto turístico.");
+        }
     }
 }
