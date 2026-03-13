@@ -73,7 +73,9 @@ export default function Listagem() {
           </div>
         </div>
 
-        <p className="text-muted mb-3">{pontos.length} local(is) cadastrado(s)</p>
+        <p className="text-muted mb-3">
+          {pontosFiltrados.length === 0 ? 'Nenhum local cadastrado' : `${pontosFiltrados.length} local(is) cadastrado(s)`}
+        </p>
 
         {/* Conteúdo */}
         {loading ? (
