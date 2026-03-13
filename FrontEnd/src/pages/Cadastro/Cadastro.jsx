@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +8,8 @@ import {
   faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import { MOCK_DATA } from '../../services/pontosTuristicosService';
+import axios from 'axios';
+import pontosTuristicosService from '../../services/pontosTuristicosService';
 import './Cadastro.css';
 
 const CATEGORIAS = ['Praia', 'Parque', 'Museu', 'Monumento', 'Gastronomia', 'Outro'];
@@ -27,7 +27,6 @@ const FORM_INICIAL = {
   cidade: '',
   estado: '',
   categoria: '',
-  imagem: '',
 };
 
 export default function Cadastro() {
@@ -35,13 +34,24 @@ export default function Cadastro() {
   const { id } = useParams();
   const isEdicao = Boolean(id);
 
-  const [form, setForm] = useState(() => {
-    if (!isEdicao) return FORM_INICIAL;
-    return MOCK_DATA.find((p) => p.id === Number(id)) ?? FORM_INICIAL;
-  });
+  const [form, setForm] = useState(FORM_INICIAL);
   const [erros, setErros] = useState({});
   const [salvando, setSalvando] = useState(false);
   const [municipios, setMunicipios] = useState([]);
+
+  useEffect(() => {
+    if (!isEdicao) return;
+    pontosTuristicosService.buscarPorId(id)
+      .then((res) => setForm({
+        nome: res.data.nome,
+        descricao: res.data.descricao,
+        endereco: res.data.endereco,
+        cidade: res.data.cidade,
+        estado: res.data.estado,
+        categoria: res.data.categoria,
+      }))
+      .catch(() => toast.error('Erro ao carregar ponto turístico.'));
+  }, [id, isEdicao]);
 
   useEffect(() => {
     if (!form.estado) return;
@@ -80,9 +90,20 @@ export default function Cadastro() {
     }
 
     setSalvando(true);
-    toast.success(isEdicao ? 'Ponto atualizado com sucesso!' : 'Ponto cadastrado com sucesso!');
-    navigate('/');
-    setSalvando(false);
+    try {
+      if (isEdicao) {
+        await pontosTuristicosService.atualizar(id, form);
+        toast.success('Ponto atualizado com sucesso!');
+      } else {
+        await pontosTuristicosService.criar(form);
+        toast.success('Ponto cadastrado com sucesso!');
+      }
+      navigate('/');
+    } catch {
+      toast.error(isEdicao ? 'Erro ao atualizar o ponto turístico.' : 'Erro ao cadastrar o ponto turístico.');
+    } finally {
+      setSalvando(false);
+    }
   }
 
   return (
@@ -139,14 +160,14 @@ export default function Cadastro() {
                     rows={3}
                     value={form.descricao}
                     onChange={handleChange}
-                    maxLength={500}
+                    maxLength={100}
                   />
                   <div className="d-flex justify-content-between">
                     {erros.descricao
                       ? <div className="invalid-feedback d-block">{erros.descricao}</div>
                       : <span />
                     }
-                    <small className="text-muted">{form.descricao.length}/500</small>
+                    <small className="text-muted">{form.descricao.length}/100</small>
                   </div>
                 </div>
 

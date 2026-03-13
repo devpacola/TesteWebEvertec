@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,32 +10,42 @@ import {
   faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import { MOCK_DATA } from '../../services/pontosTuristicosService';
+import pontosTuristicosService from '../../services/pontosTuristicosService';
 import './Listagem.css';
 
 const CATEGORIAS = ['Todas', 'Praia', 'Parque', 'Museu', 'Monumento', 'Gastronomia', 'Outro'];
 
 export default function Listagem() {
   const navigate = useNavigate();
-  const [pontos, setPontos] = useState(MOCK_DATA);
-  const [loading] = useState(false);
+  const [pontos, setPontos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    pontosTuristicosService.listar()
+      .then((res) => setPontos(res.data))
+      .catch(() => toast.error('Erro ao carregar pontos turísticos.'))
+      .finally(() => setLoading(false));
+  }, []);
   const [busca, setBusca] = useState('');
   const [categoriaFiltro, setCategoriaFiltro] = useState('Todas');
   const [deletandoId, setDeletandoId] = useState(null);
 
-  function handleExcluir(id, nome) {
+  async function handleExcluir(id, nome) {
     if (!window.confirm(`Deseja excluir "${nome}"?`)) return;
     setDeletandoId(id);
-    setPontos((prev) => prev.filter((p) => p.id !== id));
-    toast.success(`"${nome}" excluído com sucesso!`);
-    setDeletandoId(null);
+    try {
+      await pontosTuristicosService.excluir(id);
+      setPontos((prev) => prev.filter((p) => p.id !== id));
+      toast.success(`"${nome}" excluído com sucesso!`);
+    } catch {
+      toast.error('Erro ao excluir o ponto turístico.');
+    } finally {
+      setDeletandoId(null);
+    }
   }
 
   const pontosFiltrados = pontos.filter((p) => {
-    const matchBusca =
-      p.nome.toLowerCase().includes(busca.toLowerCase()) ||
-      p.cidade.toLowerCase().includes(busca.toLowerCase()) ||
-      p.estado.toLowerCase().includes(busca.toLowerCase());
+    const matchBusca = busca === '' || p.pontoTuristicoFiltro.includes(busca.toLowerCase());
     const matchCategoria = categoriaFiltro === 'Todas' || p.categoria === categoriaFiltro;
     return matchBusca && matchCategoria;
   });
