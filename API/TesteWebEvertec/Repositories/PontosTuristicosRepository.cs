@@ -10,6 +10,7 @@ public class PontosTuristicosRepository(AppDbContext appDbContext)
 
     public async Task<PontoTuristico> Inserir(PontoTuristico pontoTuristico)
     {
+        pontoTuristico.PontoTuristicoFiltro = $"{pontoTuristico.Nome} {pontoTuristico.Descricao}";
         await _dbContext.PontosTuristicos.AddAsync(pontoTuristico);
         await _dbContext.SaveChangesAsync();
         return pontoTuristico;
@@ -26,6 +27,13 @@ public class PontosTuristicosRepository(AppDbContext appDbContext)
     {
         return await _dbContext.PontosTuristicos
             .Where(p => p.Categoria.Equals(categoria) && p.DeletadoEm == null)
+            .ToListAsync();
+    }
+
+    public async Task<List<PontoTuristico>> BuscarPorFiltro(string termo)
+    {
+        return await _dbContext.PontosTuristicos
+            .Where(p => p.PontoTuristicoFiltro.Contains(termo) && p.DeletadoEm == null)
             .ToListAsync();
     }
 

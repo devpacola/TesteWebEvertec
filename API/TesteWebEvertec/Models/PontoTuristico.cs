@@ -36,6 +36,9 @@ public class PontoTuristico
         ErrorMessage = "Categoria inválida. Use: Praia, Parque, Museu, Monumento, Gastronomia ou Outro.")]
     public string Categoria { get; set; } = string.Empty;
 
+    [MaxLength(200)]
+    public string PontoTuristicoFiltro { get; set; } = string.Empty;
+
     public DateTime CriadoEm { get; set; } = DateTime.Now;
 
     public DateTime AtualizadoEm { get; set; } = DateTime.Now;

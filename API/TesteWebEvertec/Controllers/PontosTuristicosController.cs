@@ -45,6 +45,14 @@ public class PontosTuristicosController(PontosTuristicosRepository pontosTuristi
         return Ok(pontosTuristicosOrdenados);
     }
 
+    [HttpGet("buscar")]
+    public async Task<ActionResult<List<PontoTuristico>>> BuscarPontosTuristicosPorFiltro([FromQuery] string termo)
+    {
+        List<PontoTuristico> pontosTuristicos = await _pontosTuristicosRepository.BuscarPorFiltro(termo);
+        List<PontoTuristico> pontosTuristicosOrdenados = pontosTuristicos.OrderByDescending(p => p.CriadoEm).ToList();
+        return Ok(pontosTuristicosOrdenados);
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<PontoTuristico>> BuscarPontoTuristicoPorId(int id)
     {
