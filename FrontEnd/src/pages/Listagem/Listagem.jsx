@@ -6,7 +6,6 @@ import {
   faEdit,
   faTrash,
   faMapMarkerAlt,
-  faPlus,
   faSearch,
   faFilter,
 } from '@fortawesome/free-solid-svg-icons';
@@ -45,21 +44,6 @@ export default function Listagem() {
     <div className="listagem-page">
       <div className="container py-4">
 
-        {/* Título e botão */}
-        <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
-          <div>
-            <h1 className="page-title">
-              <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2 text-success" />
-              Pontos Turísticos
-            </h1>
-            <p className="text-muted mb-0">{pontos.length} local(is) cadastrado(s)</p>
-          </div>
-          <button className="btn btn-success btn-novo" onClick={() => navigate('/cadastro')}>
-            <FontAwesomeIcon icon={faPlus} className="me-2" />
-            Novo Ponto
-          </button>
-        </div>
-
         {/* Filtros */}
         <div className="filtros-bar mb-4">
           <div className="input-group search-input">
@@ -88,6 +72,8 @@ export default function Listagem() {
             ))}
           </div>
         </div>
+
+        <p className="text-muted mb-3">{pontos.length} local(is) cadastrado(s)</p>
 
         {/* Conteúdo */}
         {loading ? (

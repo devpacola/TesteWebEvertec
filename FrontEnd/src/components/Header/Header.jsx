@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faPlus, faList } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './Header.css';
 
 export default function Header() {
@@ -29,15 +29,6 @@ export default function Header() {
 
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-                  to="/"
-                >
-                  <FontAwesomeIcon icon={faList} className="me-2" />
-                  Listagem
-                </Link>
-              </li>
               <li className="nav-item">
                 <Link
                   className={`nav-link btn-cadastro ${location.pathname === '/cadastro' ? 'active' : ''}`}
