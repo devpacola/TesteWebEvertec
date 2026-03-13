@@ -1,0 +1,157 @@
+.listagem-page {
+  min-height: calc(100vh - 70px);
+  background: #f8f9fa;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a472a;
+  margin-bottom: 0.25rem;
+}
+
+.btn-novo {
+  background: #2d6a4f;
+  border-color: #2d6a4f;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btn-novo:hover {
+  background: #1a472a;
+  border-color: #1a472a;
+  transform: translateY(-1px);
+}
+
+/* ── Filtros ── */
+.filtros-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.search-input .input-group-text {
+  background: #fff;
+  border-right: none;
+  color: #6c757d;
+}
+
+.search-input .form-control {
+  border-left: none;
+  box-shadow: none;
+}
+
+.search-input .form-control:focus {
+  border-color: #2d6a4f;
+}
+
+.categoria-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.filter-chip {
+  border: 1px solid #dee2e6;
+  background: #fff;
+  color: #6c757d;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.filter-chip:hover {
+  border-color: #2d6a4f;
+  color: #2d6a4f;
+}
+
+.filter-chip.active {
+  background: #2d6a4f;
+  border-color: #2d6a4f;
+  color: #fff;
+}
+
+/* ── Cards ── */
+.ponto-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.ponto-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-wrapper {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-img-wrapper .card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.ponto-card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.categoria-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.badge-praia       { background: #0096c7; }
+.badge-parque      { background: #2d6a4f; }
+.badge-museu       { background: #7b2d8b; }
+.badge-monumento   { background: #d4831a; }
+.badge-gastronomia { background: #c9184a; }
+.badge-outro       { background: #6c757d; }
+
+.card-title {
+  font-weight: 700;
+  color: #212529;
+  font-size: 1.05rem;
+}
+
+.localizacao {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.card-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Estrelas ── */
+.avaliacao {
+  display: flex;
+  gap: 2px;
+  font-size: 0.875rem;
+}
+
+.star-filled { color: #ffc107; }
+.star-empty  { color: #dee2e6; }
+
+.empty-state {
+  padding: 4rem 0;
+}
